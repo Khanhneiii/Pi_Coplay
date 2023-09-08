@@ -107,6 +107,7 @@ def readUart():
 									# Try Moth Connect
 									moth.start()
 									print("moth started")
+									uart.send("finish")
 								else:
 									print(f"empty server")
 							else:
