@@ -6,6 +6,7 @@ from moth import Moth
 PUB_PARSING_FAILED = "PUB_PARSING_FAILED"
 PUB_WIFI_SSID_FAILED = "PUB_WIFI_SSID_FAILED"
 PUB_WIFI_PWD_FAILED = "PUB_WIFI_PWD_FAILED"
+PUB_WIFI_SUCCESS = "PUB_WIFI_SUCCESS"
 PUB_WS_FAILED = "PUB_WS_FAILED"
 PUB_CAMERA_FAILED = "PUB_CAMERA_FAILED"
 LED_READY = "LED_READY"
@@ -32,6 +33,7 @@ def wifi_connect(ssid, pwd):
 		uart.send(PUB_WIFI_PWD_FAILED)
 	else:
 		print("wifi connect successfuly")	
+		uart.send(PUB_WIFI_SUCCESS)
 
 # Read value from microbit uart
 def readUart():
@@ -107,7 +109,6 @@ def readUart():
 									# Try Moth Connect
 									moth.start()
 									print("moth started")
-									uart.send("finish")
 								else:
 									print(f"empty server")
 							else:
