@@ -14,9 +14,13 @@ from sys import getsizeof
 PUB_SUCCESS = "PUB_SUCCESS"
 PUB_FAILED = "PUB_FAILED"
 PUB_WS_FAILED = "PUB_WS_FAILED"
+PUB_WS_CONNECTED = "PUB_WS_CONNECTED"
+PUB_WS_ERROR = "PUB_WS_ERROR"
+PUB_WS_CLOSE = "PUB_WS_CLOSE"
 PUB_CAMERA_FAILED = "PUB_CAMERA_FAILED"
 LED_READY = "LED_READY"
 LED_PUB = "LED_PUB"
+GET_BAT_VOL = "Get_Bat"
 
 class Moth():
 	url = None
@@ -57,7 +61,7 @@ class Moth():
 	def on_open(self, ws):
 		print("Opened connection")
 		print(f"self:{self}")
-		self.uart.send(PUB_SUCCESS)
+		self.uart.send(PUB_WS_CONNECTED)
 		if(self.sendThread):
 			# self.sendThread.stop()
 			print("send thread stop")
@@ -99,11 +103,12 @@ class Moth():
 	def on_error(self, ws, error):
 		print(error)
 		self.sendThreadOn = False
-		self.uart.send(PUB_FAILED)
+		self.uart.send(PUB_WS_ERROR)
 
 	def on_close(self, ws, close_status_code, close_msg):
 		print(f"close_status_code:{close_status_code}")
 		self.sendThreadOn = False
+		self.uart.send(PUB_WS_CLOSE)
 
 	# Send encoded video frame to websocket
 	def send(self):
@@ -119,7 +124,7 @@ class Moth():
 			else:
 				self.uart.send(PUB_CAMERA_FAILED)
 		print("Send encoded video frame end")
-
+	
 	# Close WebSocket 
 	def close(self):
 		if(self.websocket):
@@ -129,5 +134,10 @@ class Moth():
 
 	def change_pipeline(self, info):
 		self.gst.change_pipeline(info)
+	def get_battery_voltage():
+		self.uart.send(GET_BAT_VOL)
+		msg = self.uart.uart.readline()
+		return msg
+
 
 	
