@@ -26,14 +26,17 @@ def wifi_connect(ssid, pwd):
 		print("wifi ssid failed")
 		# Send to microbit(wrong wifi ssid)
 		uart.send(PUB_WIFI_SSID_FAILED)
+		return False
 	# Wrong WiFi Password
 	elif(result.stderr.decode("ascii").find("security.psk") > 0):
 		print("wifi password failed")
 		# Send to microbit(wrong wifi password)
 		uart.send(PUB_WIFI_PWD_FAILED)
+		return False
 	else:
 		print("wifi connect successfuly")	
 		uart.send(PUB_WIFI_SUCCESS)
+		return True
 
 # Read value from microbit uart
 def readUart():
@@ -103,7 +106,9 @@ def readUart():
 									profile = data.get("profile")
 									print(f"ssid:{ssid}, password:{password}, host:{host}, port:{port}, path:{path}, profile:{profile}")
 									# Try WiFi Connect
-									wifi_connect(ssid, password)
+									stat = wifi_connect(ssid, password)
+									if stat == False:
+										continue
 									url = f"ws://{host}:{port}/{path}"
 									moth.url = url
 									# Try Moth Connect
