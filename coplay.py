@@ -65,6 +65,7 @@ def readUart():
 	'''
 	while(True):
 		c = uart.uart.readline()
+		print("uart: ",c)
 		value = c.decode()
 		value = value.rstrip()
 		print(value)
