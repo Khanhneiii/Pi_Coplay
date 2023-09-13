@@ -57,6 +57,7 @@ class Moth():
 			self.websocket.run_forever(reconnect=5)
 		except Exception as e:
 			print(f"connect Error: {e}")
+			self.uart.send(PUB_WS_FAILED)
 
 	def on_open(self, ws):
 		print("Opened connection")

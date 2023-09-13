@@ -108,6 +108,7 @@ def readUart():
 									# Try WiFi Connect
 									stat = wifi_connect(ssid, password)
 									if stat == False:
+										print("Connect wifi failed")
 										continue
 									url = f"ws://{host}:{port}/{path}"
 									moth.url = url
