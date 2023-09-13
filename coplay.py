@@ -29,7 +29,8 @@ def wifi_connect(ssid, pwd):
 		uart.send(PUB_WIFI_SSID_FAILED)
 		return False
 	# Wrong WiFi Password
-	elif(result.stdout.decode("ascii").find("Secret was") > 0):
+	#elif(result.stdout.decode("ascii").find("Secret was") > 0):
+	elif(result.stderr.decode("ascii").find("security.psk") > 0):
 		print("wifi password failed")
 		# Send to microbit(wrong wifi password)
 		uart.send(PUB_WIFI_PWD_FAILED)
