@@ -22,7 +22,7 @@ def wifi_connect(ssid, pwd):
 		result = subprocess.run(['nmcli', 'dev', 'wifi', 'connect', ssid, 'password', pwd], capture_output=True)
 	print(f"wifi connect result:{result}")
 	# Wrong WiFi SSID
-	print(result.stdout.decode("ascii"))
+	print(result.stderr.decode("ascii"))
 	if(result.stderr.decode("ascii").find("No network with SSID") > 0):
 		print("wifi ssid failed")
 		# Send to microbit(wrong wifi ssid)
