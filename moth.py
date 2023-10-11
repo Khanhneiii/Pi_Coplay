@@ -1,3 +1,6 @@
+import RPi.GPIO as GPIO
+import time
+
 import subprocess
 import asyncio
 import serial
@@ -22,6 +25,10 @@ LED_READY = "LED_READY"
 LED_PUB = "LED_PUB"
 GET_BAT_VOL = "Get_Bat"
 
+def reset_micro_bit():
+    GPIO.output(RESET_PIN,GPIO.LOW)
+    time.sleep(0.2)
+    GPIO.output(RESET_PIN,GPIO.HIGH)
 class Moth():
 	url = None
 	def __init__(self, uart):
@@ -84,8 +91,11 @@ class Moth():
 					print(f"type:{type}")
 					if(type == "control"):
 						direction = jsonObject.get("direction")
+							
 						print(f"direction:{direction}")
-						if(direction):
+						if direction == "reset":
+							reset_micro_bit()
+						elif(direction):
 							upper = direction.upper()
 							self.uart.send(upper)
 						else:

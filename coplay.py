@@ -1,5 +1,3 @@
-import RPi.GPIO as GPIO
-import time
 
 import json
 import subprocess
@@ -16,10 +14,7 @@ LED_READY = "LED_READY"
 LED_PUB = "LED_PUB"
 RESET_PIN = 22
 
-def reset_micro_bit():
-    GPIO.output(RESET_PIN,GPIO.LOW)
-    time.sleep(0.2)
-    GPIO.output(RESET_PIN,GPIO.HIGH)
+
 
 # Try WiFi connect
 def wifi_connect(ssid, pwd):
