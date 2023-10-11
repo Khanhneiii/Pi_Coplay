@@ -1,3 +1,6 @@
+import RPI.GPIO as GPIO
+import time
+
 import json
 import subprocess
 import asyncio
@@ -11,7 +14,12 @@ PUB_WS_FAILED = "PUB_WS_FAILED"
 PUB_CAMERA_FAILED = "PUB_CAMERA_FAILED"
 LED_READY = "LED_READY"
 LED_PUB = "LED_PUB"
+RESET_PIN = 22
 
+def reset_micro_bit():
+    GPIO.output(RESET_PIN,GPIO.LOW)
+    time.sleep(0.2)
+    GPIO.output(RESET_PIN,GPIO.HIGH)
 
 # Try WiFi connect
 def wifi_connect(ssid, pwd):
@@ -137,6 +145,8 @@ def readUart():
 							info = {}
 							info["bitrate"] = bitrate
 							moth.change_pipeline(info)
+						elif(type == "reset"):
+							reset_micro_bit()
 						else:
 							print(f"empty type")
 
@@ -154,6 +164,9 @@ def readUart():
 def main():
 	global uart, moth
 	try:
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(RESET_PIN,GPIO.out)
+		GPIO.output()
 		# Create UART Instance
 		uart = Uart()
 		# Create Moth Instance with UART Instance
