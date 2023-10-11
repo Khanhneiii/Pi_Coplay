@@ -134,6 +134,7 @@ def readUart():
 						elif(type == "control"):
 							direction = jsonObject.get("direction")
 							if direction == "reset":
+								print(direction)
 								reset_micro_bit()
 								continue
 							print(f"direction:{direction}")
