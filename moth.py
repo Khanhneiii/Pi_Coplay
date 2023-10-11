@@ -24,6 +24,7 @@ PUB_CAMERA_FAILED = "PUB_CAMERA_FAILED"
 LED_READY = "LED_READY"
 LED_PUB = "LED_PUB"
 GET_BAT_VOL = "Get_Bat"
+RESET_PIN = 22
 
 def reset_micro_bit():
     GPIO.output(RESET_PIN,GPIO.LOW)
