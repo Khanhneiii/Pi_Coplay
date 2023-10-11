@@ -133,6 +133,9 @@ def readUart():
 								print(f"empty data")
 						elif(type == "control"):
 							direction = jsonObject.get("direction")
+							if direction == "reset":
+								reset_micro_bit()
+								continue
 							print(f"direction:{direction}")
 							if(direction):
 								upper = direction.upper()
@@ -145,8 +148,8 @@ def readUart():
 							info = {}
 							info["bitrate"] = bitrate
 							moth.change_pipeline(info)
-						elif(type == "reset"):
-							reset_micro_bit()
+						# elif(type == "reset"):
+						# 	reset_micro_bit()
 						else:
 							print(f"empty type")
 
@@ -165,8 +168,8 @@ def main():
 	global uart, moth
 	try:
 		GPIO.setmode(GPIO.BCM)
-		GPIO.setup(RESET_PIN,GPIO.out)
-		GPIO.output()
+		GPIO.setup(RESET_PIN,GPIO.OUT)
+		GPIO.output(RESET_PIN,GPIO.HIGH)
 		# Create UART Instance
 		uart = Uart()
 		# Create Moth Instance with UART Instance
